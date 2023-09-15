@@ -11,11 +11,11 @@ export const Modal = ({ largeImageURL, onClose }) => {
     };
 
     // Додаємо слухача подій клавіш "Escape" при монтуванні компонента
-    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     // При демонтажі компонента видаляємо слухача подій
     return () => {
-      window.removeEventListener('keydown', this.handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
 
