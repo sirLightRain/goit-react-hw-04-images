@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 //! Імпорт компонент
 import { Searchbar } from './Searchbar/Searchbar';
@@ -21,27 +21,27 @@ export const App = () => {
   const [selectedImage, SetSelectedImage] = useState('');
 
   // Отримуємо картинки і вносимо їх в стан
-  const fetchImages = async () => {
-    if (!query) { 
-      return;
-    }
+   const fetchImages = useCallback(async () => {
+     if (!query) {
+       return;
+     }
 
-    setIsLoading(true);
+     setIsLoading(true);
 
-    try {
-      const response = await GetImg(query, page);
-      setImages(prevImg => [...prevImg, ...response.data.hits]);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Помилка при отриманні зображень з API:', error);
-      setIsLoading(false);
-    }
-  };
+     try {
+       const response = await GetImg(query, page);
+       setImages(prevImg => [...prevImg, ...response.data.hits]);
+       setIsLoading(false);
+     } catch (error) {
+       console.error('Помилка при отриманні зображень з API:', error);
+       setIsLoading(false);
+     }
+   }, [query, page]);
 
   // Завантажити зображення при зміні запиту абосторінки
   useEffect(() => {
     fetchImages();
-  }, [query, page]);
+  }, [fetchImages]);
 
   // Зчитуємо запит та сздіснюємо пошук за введеним словом
   const handleSearch = query => {
