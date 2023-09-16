@@ -21,22 +21,22 @@ export const App = () => {
   const [selectedImage, SetSelectedImage] = useState('');
 
   // Отримуємо картинки і вносимо їх в стан
-   const fetchImages = useCallback(async () => {
-     if (!query) {
-       return;
-     }
+  const fetchImages = useCallback(async () => {
+    if (!query) {
+      return;
+    }
 
-     setIsLoading(true);
+    setIsLoading(true);
 
-     try {
-       const response = await GetImg(query, page);
-       setImages(prevImg => [...prevImg, ...response.data.hits]);
-       setIsLoading(false);
-     } catch (error) {
-       console.error('Помилка при отриманні зображень з API:', error);
-       setIsLoading(false);
-     }
-   }, [query, page]);
+    try {
+      const response = await GetImg(query, page);
+      setImages(prevImg => [...prevImg, ...response.data.hits]);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Помилка при отриманні зображень з API:', error);
+      setIsLoading(false);
+    }
+  }, [query, page]);
 
   // Завантажити зображення при зміні запиту абосторінки
   useEffect(() => {
@@ -44,10 +44,12 @@ export const App = () => {
   }, [fetchImages]);
 
   // Зчитуємо запит та сздіснюємо пошук за введеним словом
-  const handleSearch = query => {
-    setQuery(query);
-    setImages([]);
-    setPage(1);
+  const handleSearch = newQuery => {
+    if (newQuery !== query) {
+      setQuery(newQuery);
+      setImages([]);
+      setPage(1);
+    }
   };
 
   // Функція для завантаження додаткових зображень
